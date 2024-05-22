@@ -1,160 +1,323 @@
-create database veterinaria;
-use  veterinaria;
+-- DROP DATABASE IF EXISTS veterinaria;
+CREATE DATABASE veterinaria;
+USE veterinaria;
 
-
-
-create table rangos(
-id_rangos int primary key auto_increment,
-Nombres varchar(30)
-);
-create table usuarios(
-id_usuarios int primary key auto_increment,
-Nombre varchar(30),
-Apellido varchar(30),
-Documento varchar(30) unique,
-Usuario varchar(30),
-Contrasena varchar(30)
-);
-insert into usuarios values(1,"Juan","Lanuza","121212312","Juan","Admin");
-insert into usuarios values(2,"Elias","Hincapie","321212","Elias","Usuario");
-
-
-create table tipo_consulta(
-id_tipo_consulta int primary key auto_increment,
-Nombre varchar(100),
-Precio double
-);
-insert into tipo_consulta values(1,"Consulta de rutina ",2300);
-insert into tipo_consulta values(2,"Consulta de control de parásitos ",1300);
-insert into tipo_consulta values(3,"Consulta de comportamiento ",800);
-
-
-
-
-create table animales(
-id_animales int primary key auto_increment,
-Nombre varchar(30)
+CREATE TABLE rangos (
+    id_rangos INT PRIMARY KEY AUTO_INCREMENT,
+    Nombres VARCHAR(30)
 );
 
-
-create table raza(
-id_raza int primary key auto_increment,
-Nombre varchar(30),
-Fk_Animal int,
-foreign key(fk_animal) references Veterinaria.animales(id_animales)
+CREATE TABLE usuarios (
+    id_usuarios INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30),
+    Apellido VARCHAR(30),
+    Documento VARCHAR(30) UNIQUE,
+    Usuario VARCHAR(30),
+    Contrasena VARCHAR(30)
 );
-insert into animales values(1,"Perro");
 
-INSERT INTO animales (Nombre) 
-VALUES ('Gato');
-INSERT INTO animales (Nombre) 
-VALUES ('Loro');
-INSERT INTO animales (Nombre) 
-VALUES ('Conejo');
-INSERT INTO animales (Nombre) 
-VALUES ('Pez');
-insert into raza values (1,"Labrador Retriever",1);
-insert into raza values (2,"Pastor Alemán",1);
-insert into raza values (3,"Golden Retriever",1);
-insert into raza values (4,"Bulldog",1);
-insert into raza values(5,"Persa",2);
-insert into raza values(6,"Siames",2);
-insert into raza values(7,"British Shorthair",2);
-insert into raza values(8,"Cacatúa",3);
-insert into raza values(9,"Loro Gris Africano",3);
-insert into raza values(10,"Mini Lop",4);
-insert into raza values(11,"Mini Rexo",4);
-insert into raza values(12,"Pez León",5);
-insert into raza values(13,"Mandarín",5);
+INSERT INTO usuarios VALUES (1, 'Juan', 'Lanuza', '121212312', 'Juan', 'Admin');
+INSERT INTO usuarios VALUES (2, 'Elias', 'Hincapie', '321212', 'Elias', 'Usuario');
 
-
-
-create table cliente(
-id_cliente int primary key auto_increment,
-Nombre varchar(30),
-Apellido varchar(30),
-Documento varchar(30) unique,
-Fecha_Nacimiento date
-
+CREATE TABLE tipo_consulta (
+    id_tipo_consulta INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(100),
+    Precio DOUBLE
 );
+
+INSERT INTO tipo_consulta VALUES (1, 'Consulta de rutina', 2300);
+INSERT INTO tipo_consulta VALUES (2, 'Consulta de control de parásitos', 1300);
+INSERT INTO tipo_consulta VALUES (3, 'Consulta de comportamiento', 800);
+
+CREATE TABLE animales (
+    id_animales INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30)
+);
+
+INSERT INTO animales (Nombre) VALUES ('Perro');
+INSERT INTO animales (Nombre) VALUES ('Gato');
+INSERT INTO animales (Nombre) VALUES ('Loro');
+INSERT INTO animales (Nombre) VALUES ('Conejo');
+INSERT INTO animales (Nombre) VALUES ('Pez');
+
+CREATE TABLE raza (
+    id_raza INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30),
+    fk_animal INT,
+    FOREIGN KEY (fk_animal) REFERENCES animales(id_animales)
+);
+
+INSERT INTO raza VALUES (1, 'Labrador Retriever', 1);
+INSERT INTO raza VALUES (2, 'Pastor Alemán', 1);
+INSERT INTO raza VALUES (3, 'Golden Retriever', 1);
+INSERT INTO raza VALUES (4, 'Bulldog', 1);
+INSERT INTO raza VALUES (5, 'Persa', 2);
+INSERT INTO raza VALUES (6, 'Siames', 2);
+INSERT INTO raza VALUES (7, 'British Shorthair', 2);
+INSERT INTO raza VALUES (8, 'Cacatúa', 3);
+INSERT INTO raza VALUES (9, 'Loro Gris Africano', 3);
+INSERT INTO raza VALUES (10, 'Mini Lop', 4);
+INSERT INTO raza VALUES (11, 'Mini Rexo', 4);
+INSERT INTO raza VALUES (12, 'Pez León', 5);
+INSERT INTO raza VALUES (13, 'Mandarín', 5);
+
+CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30),
+    Apellido VARCHAR(30),
+    Documento VARCHAR(30) UNIQUE,
+    Fecha_Nacimiento DATE
+);
+
 INSERT INTO cliente (Nombre, Apellido, Documento, Fecha_Nacimiento) 
 VALUES 
 ('Juan', 'Pérez', '12345678A', '1990-05-15'),
 ('María', 'González', '87654321B', '1985-10-20'),
 ('Pedro', 'Martínez', '56789012C', '1978-03-25');
 
-create table mascotas(
-id_mascotas int primary key auto_increment,
-Nombre varchar(30),
-Peso float,
-color varchar(30),
-edad date,
-fk_tipo_animal int,
-fk_raza int,
-foreign key(fk_tipo_animal) references veterinaria.animales(id_animales),
-foreign key(fk_raza) references veterinaria.raza(id_raza)
-
+CREATE TABLE mascotas (
+    id_mascotas INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30),
+    Peso FLOAT,
+    color VARCHAR(30),
+    edad DATE,
+    fk_tipo_animal INT,
+    fk_raza INT,
+    FOREIGN KEY (fk_tipo_animal) REFERENCES animales(id_animales),
+    FOREIGN KEY (fk_raza) REFERENCES raza(id_raza)
 );
 
+INSERT INTO mascotas VALUES (1, 'Rocki', 30, 'Negro', '1978-03-25', 1, 3);
+INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal, fk_raza) 
+VALUES ('Rex', 25.3, 'Marrón', '2017-08-20', 1, 2);
+INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal, fk_raza) 
+VALUES ('Polly', 1.2, 'Verde', '2020-10-15', 3, 3);
+INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal, fk_raza) 
+VALUES ('Bugs', 3.8, 'Gris', '2018-04-03', 4, 10);
+INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal, fk_raza) 
+VALUES ('Nemo', 0.2, 'Anaranjado', '2021-02-28', 5, 13);
 
-
-
-
-
-insert into mascotas values(1,"Rocki",30,"Negro",'1978-03-25',1,3);
-
-
-create table estado(
-id_estado int primary key auto_increment,
-Nombre varchar(30)
+CREATE TABLE estado (
+    id_estado INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30)
 );
 
-insert into estado values(1,"En espera");
-insert into estado values(2,"Aceptada");
-insert into estado values(3,"Cancelada");
+INSERT INTO estado VALUES (1, 'En espera');
+INSERT INTO estado VALUES (2, 'Aceptada');
+INSERT INTO estado VALUES (3, 'Cancelada');
 
-
-create table metodopago(
-id_metodo int primary key auto_increment,
-Nombre varchar(30)
-
+CREATE TABLE metodopago (
+    id_metodo INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(30)
 );
 
-insert into metodopago values(1,"Efectivo");
-insert into metodopago values(2,"Tarjeta Credito/Debito");
+INSERT INTO metodopago VALUES (1, 'Efectivo');
+INSERT INTO metodopago VALUES (2, 'Tarjeta Credito/Debito');
 
-
-create table consulta(
-id_consulta int primary key auto_increment,
-fk_mascotas int,
-fk_tipo_consulta int,
-motivo varchar(100),
-fk_metodopago int,
-fk_cliente int,
-fk_estado int,
-fecha date,
-fk_usuarios int,
-foreign key(fk_mascotas) references veterinaria.mascotas(id_mascotas),
-foreign key(fk_tipo_consulta) references veterinaria.tipo_consulta(id_tipo_consulta),
-foreign key(fk_metodopago) references veterinaria.metodopago(id_metodo),
-foreign key(fk_cliente) references veterinaria.cliente(id_cliente),
-foreign key(fk_estado) references veterinaria.estado(id_estado),
-foreign key(fk_usuarios) references veterinaria.usuarios(id_usuarios)
-
+CREATE TABLE consulta (
+    id_consulta INT PRIMARY KEY AUTO_INCREMENT,
+    fk_mascotas INT,
+    fk_tipo_consulta INT,
+    motivo VARCHAR(100),
+    fk_metodopago INT,
+    fk_cliente INT,
+    fk_estado INT,
+    fecha DATE,
+    fk_usuarios INT,
+    FOREIGN KEY (fk_mascotas) REFERENCES mascotas(id_mascotas),
+    FOREIGN KEY (fk_tipo_consulta) REFERENCES tipo_consulta(id_tipo_consulta),
+    FOREIGN KEY (fk_metodopago) REFERENCES metodopago(id_metodo),
+    FOREIGN KEY (fk_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (fk_estado) REFERENCES estado(id_estado),
+    FOREIGN KEY (fk_usuarios) REFERENCES usuarios(id_usuarios)
 );
 
+-- Consultas de ejemplo
+SELECT tipo_consulta.Nombre AS "Nombre", COUNT(id_tipo_consulta) AS "Cantidad", SUM(precio) AS "Total"
+FROM tipo_consulta
+INNER JOIN consulta ON tipo_consulta.id_tipo_consulta = consulta.fk_tipo_consulta
+GROUP BY tipo_consulta.Nombre;
 
+SELECT * FROM mascotas;
+SELECT * FROM animales;
 
+SELECT consulta.id_consulta, consulta.motivo, mascotas.Nombre, cliente.Nombre, cliente.Apellido, cliente.Documento, consulta.fecha, estado.Nombre
+FROM consulta
+INNER JOIN estado ON estado.id_estado = fk_estado
+INNER JOIN cliente ON id_cliente = fk_cliente
+INNER JOIN tipo_consulta ON fk_tipo_consulta = id_tipo_consulta
+INNER JOIN metodopago ON id_metodo = fk_metodopago
+INNER JOIN mascotas ON id_mascotas = fk_mascotas
+WHERE fecha BETWEEN '2021-12-12' AND '2025-01-01'
+GROUP BY id_consulta;
 
-select Tipo_consulta.nombre as "Nombre",count(id_tipo_consulta) as "Cantidad", sum(precio) as "Total" from tipo_consulta inner join consulta on tipo_consulta.id_tipo_consulta=consulta.fk_tipo_consulta group by Tipo_consulta.nombre;
-select * from mascotas;
-select * from animales;
-select consulta.id_consulta, consulta.motivo, mascotas.nombre, cliente.nombre,cliente.apellido,cliente.documento,consulta.fecha,estado.nombre from consulta inner join estado on estado.id_estado=fk_estado inner join cliente on id_cliente=fk_cliente inner join tipo_consulta on fk_tipo_consulta=id_tipo_consulta inner join metodopago on id_metodo=fk_metodopago inner join mascotas on id_mascotas=fk_mascotas where  fecha between  '2021-12-12' and  '2025-01-01' group by id_consulta;
-INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal,fk_raza) 
-VALUES ('Rex', 25.3, 'Marrón', '2017-08-20', 1,2);
-INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal,fk_raza) 
-VALUES ('Polly', 1.2, 'Verde', '2020-10-15', 3,3);
-INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal,fk_raza) 
-VALUES ('Bugs', 3.8, 'Gris', '2018-04-03', 4,10);
-INSERT INTO mascotas (Nombre, Peso, color, edad, fk_tipo_animal,fk_raza) 
-VALUES ('Nemo', 0.2, 'Anaranjado', '2021-02-28', 5,13);
+DELIMITER $$
+
+CREATE PROCEDURE MostrarClientes() 
+BEGIN
+    SELECT id_cliente, Nombre, Apellido, Documento, Fecha_Nacimiento FROM cliente;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE MostrarMascotas() 
+BEGIN
+    SELECT id_mascotas, mascotas.Nombre, Peso, animales.Nombre
+    FROM mascotas
+    INNER JOIN animales ON id_animales = fk_tipo_animal;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ComboMetodo() 
+BEGIN
+    SELECT * FROM metodopago;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ComboTipoConsulta() 
+BEGIN
+    SELECT * FROM tipo_consulta;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE MostrarEnEspera() 
+BEGIN
+    SELECT consulta.id_consulta, consulta.motivo, mascotas.Nombre, cliente.Nombre, cliente.Apellido, cliente.Documento, consulta.fecha, estado.Nombre
+    FROM consulta
+    INNER JOIN estado ON estado.id_estado = fk_estado
+    INNER JOIN cliente ON id_cliente = fk_cliente
+    INNER JOIN tipo_consulta ON fk_tipo_consulta = id_tipo_consulta
+    INNER JOIN metodopago ON id_metodo = fk_metodopago
+    INNER JOIN mascotas ON id_mascotas = fk_mascotas
+    WHERE fk_estado = 1;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE EstadoConfirmado(IN id INT) 
+BEGIN
+    UPDATE consulta SET fk_estado = 2 WHERE id_consulta = id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE EstadoCancelado(IN id INT) 
+BEGIN
+    UPDATE consulta SET fk_estado = 3 WHERE id_consulta = id;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE MostrarFechas(IN FechaInicio DATE, IN FechaFin DATE) 
+BEGIN
+    SELECT consulta.id_consulta, consulta.motivo, mascotas.Nombre, cliente.Nombre, cliente.Apellido, cliente.Documento, consulta.fecha, estado.Nombre
+    FROM consulta
+    INNER JOIN estado ON estado.id_estado = fk_estado
+    INNER JOIN cliente ON id_cliente = fk_cliente
+    INNER JOIN tipo_consulta ON fk_tipo_consulta = id_tipo_consulta
+    INNER JOIN metodopago ON id_metodo = fk_metodopago
+    INNER JOIN mascotas ON id_mascotas = fk_mascotas
+    WHERE (fk_estado = 2 OR fk_estado = 3) AND fecha BETWEEN FechaInicio AND FechaFin
+    GROUP BY id_consulta;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE MostrarFechasGenerales(IN FechaInicio DATE, IN FechaFin DATE) 
+BEGIN
+    SELECT consulta.id_consulta, consulta.motivo, mascotas.Nombre, cliente.Nombre, cliente.Apellido, cliente.Documento, consulta.fecha, estado.Nombre
+    FROM consulta
+    INNER JOIN estado ON estado.id_estado = fk_estado
+    INNER JOIN cliente ON id_cliente = fk_cliente
+    INNER JOIN tipo_consulta ON fk_tipo_consulta = id_tipo_consulta
+    INNER JOIN metodopago ON id_metodo = fk_metodopago
+    INNER JOIN mascotas ON id_mascotas = fk_mascotas
+    WHERE fecha BETWEEN FechaInicio AND FechaFin
+    GROUP BY id_consulta;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ComboAnimales() 
+BEGIN
+    SELECT * FROM animales;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE LlenarComboRaza(IN Fk_Animal2 INT) 
+BEGIN
+    SELECT * FROM raza WHERE Fk_animal = Fk_Animal2;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE NuevoUsuario(IN PCNombre VARCHAR(30), IN PCApellido VARCHAR(30), IN PCDocumento VARCHAR(30), IN PCFecha DATE) 
+BEGIN
+    INSERT INTO cliente(Nombre, Apellido, Documento, Fecha_Nacimiento) VALUES (PCNombre, PCApellido, PCDocumento, PCFecha);
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerIndiceMascota(IN Namee VARCHAR(50)) 
+BEGIN
+    SELECT * FROM raza WHERE Nombre = Namee;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE MostrarDinero() 
+BEGIN
+    SELECT tipo_consulta.Nombre AS 'Nombre', COUNT(id_tipo_consulta) AS 'Cantidad', SUM(precio) AS 'Total'
+    FROM tipo_consulta
+    INNER JOIN consulta ON tipo_consulta.id_tipo_consulta = consulta.fk_tipo_consulta
+    GROUP BY tipo_consulta.Nombre;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE LlenarComboVete() 
+BEGIN
+    SELECT * FROM usuarios;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE MostrarVeterinario() 
+BEGIN
+    SELECT * FROM usuarios;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE TablaVete(IN Mes INT, IN IDVete INT) 
+BEGIN
+    SELECT tipo_consulta.Nombre AS 'Tipo de consulta', mascotas.Nombre AS 'Mascota', consulta.motivo AS 'Motivo', cliente.Nombre AS 'Nombre Cliente', cliente.Apellido, tipo_consulta.precio, usuarios.Nombre AS 'Veterinario'
+    FROM consulta
+    INNER JOIN mascotas ON id_mascotas = fk_mascotas
+    INNER JOIN cliente ON id_cliente = fk_cliente
+    INNER JOIN estado ON id_estado = fk_estado
+    INNER JOIN tipo_consulta ON id_tipo_consulta = fk_tipo_consulta
+    INNER JOIN usuarios ON id_usuarios = fk_usuarios
+    WHERE MONTH(consulta.fecha) = Mes AND fk_usuarios = IDVete;
+END $$
+DELIMITER ;
